@@ -1,0 +1,20 @@
+unit uVendedor;
+
+interface
+
+uses uPessoa;
+
+type
+  TVendedor = class(TPessoa)
+
+  private
+    FComissao: currency;
+    FSsenha: string;
+
+  public
+    property comissao: currency read getComissao write setComissao;
+  end;
+
+implementation
+
+end.

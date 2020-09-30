@@ -1,0 +1,48 @@
+unit uCliente;
+
+interface
+
+uses uPessoa;
+
+type
+  TCliente = class(TPessoa)
+
+  private
+    FSalario: currency;
+    FEndereco: string;
+
+    function getSalario: currency;
+    procedure setSalario(Value: currency);
+    function getEndereco: string;
+    procedure setEndereco(Value: string);
+
+  public
+    property salario: currency read getSalario write setSalario;
+    property endereco: string read getEndereco write setEndereco;
+  end;
+
+implementation
+
+{ TCliente }
+
+function TCliente.getEndereco: string;
+begin
+  Result := FEndereco;
+end;
+
+function TCliente.getSalario: currency;
+begin
+
+end;
+
+procedure TCliente.setEndereco(Value: string);
+begin
+
+end;
+
+procedure TCliente.setSalario(Value: currency);
+begin
+
+end;
+
+end.

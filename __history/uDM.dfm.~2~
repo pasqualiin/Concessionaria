@@ -1,0 +1,15 @@
+object DM: TDM
+  OldCreateOrder = False
+  Height = 150
+  Width = 215
+  object Conn: TFDConnection
+    Params.Strings = (
+      'Database=DBConcessionaria'
+      'User_Name=postgres'
+      'Password=123456'
+      'Server=localhost'
+      'DriverID=PG')
+    Left = 72
+    Top = 48
+  end
+end
