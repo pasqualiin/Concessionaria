@@ -9,8 +9,9 @@ uses
   uVendedor in 'MODEL\uVendedor.pas',
   uBaseDAO in 'DAO\uBaseDAO.pas',
   uVendedorDAO in 'DAO\uVendedorDAO.pas',
-  uFrmVendedor in 'uFrmVendedor.pas' {Form1},
-  uFrmPrincipal in 'uFrmPrincipal.pas' {FrmPrincipal};
+  uFrmVendedor in 'uFrmVendedor.pas' {FrmVendedor},
+  uFrmPrincipal in 'uFrmPrincipal.pas' {FrmPrincipal},
+  uFrmCadVendedor in 'uFrmCadVendedor.pas' {FrmCadVendedor};
 
 {$R *.res}
 
@@ -19,7 +20,8 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TFrmLogin, FrmLogin);
   Application.CreateForm(TDM, DM);
-  Application.CreateForm(TForm1, Form1);
+  Application.CreateForm(TFrmCadVendedor, FrmCadVendedor);
   Application.CreateForm(TFrmPrincipal, FrmPrincipal);
+  Application.CreateForm(TFrmVendedor, FrmVendedor);
   Application.Run;
 end.

@@ -1,5 +1,5 @@
 unit uBaseDAO;
-
+
 interface
 
 uses FireDAC.Comp.Client, uDM, System.SysUtils;
@@ -14,6 +14,7 @@ type
 
     function ExecutarComando(pSQL: string): integer;
     function RetornarDataSet(pSQL: string): TFDQuery;
+    function HaRegistro(pSQL: string): integer;
   end;
 
 implementation
@@ -54,6 +55,19 @@ begin
   End;
 end;
 
+function TBaseDAO.HaRegistro(pSQL: string): integer;
+begin
+  try
+    DM.Conn.StartTransaction;
+    FQuery.SQL.Text := pSQL;
+    FQuery.Open;
+    Result := FQuery.RowsAffected;
+    DM.Conn.Commit;
+  except
+    DM.Conn.Rollback;
+  end;
+end;
+
 function TBaseDAO.RetornarDataSet(pSQL: string): TFDQuery;
 begin
   FQuery.SQL.Text := pSQL;
@@ -62,3 +76,4 @@ begin
 end;
 
 end.
+

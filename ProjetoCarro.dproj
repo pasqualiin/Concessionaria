@@ -113,11 +113,15 @@
         <DCCReference Include="DAO\uBaseDAO.pas"/>
         <DCCReference Include="DAO\uVendedorDAO.pas"/>
         <DCCReference Include="uFrmVendedor.pas">
-            <Form>Form1</Form>
+            <Form>FrmVendedor</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="uFrmPrincipal.pas">
             <Form>FrmPrincipal</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="uFrmCadVendedor.pas">
+            <Form>FrmCadVendedor</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Release">

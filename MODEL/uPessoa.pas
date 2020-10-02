@@ -8,14 +8,14 @@ type
   TPessoa = class
   private
     FNome: string;
-    FDataNasc: string;
+    FDataNasc: TDate;
     FCPF: string;
     FContato: string;
 
     function getNome: string;
     procedure setNome(Value: string);
-    function getDataNasc: string;
-    procedure setDataNasc(Value: string);
+    function getDataNasc: TDate;
+    procedure setDataNasc(Value: TDate);
     function getCpf: string;
     procedure setCpf(Value: string);
     function getContato: string;
@@ -23,7 +23,7 @@ type
   public
 
     property nome: string read getNome write setNome;
-    property dataNasc: string read getDataNasc write setDataNasc;
+    property dataNasc: TDate read getDataNasc write setDataNasc;
     property cpf: string read getCpf write setCpf;
     property contato: string read getContato write setContato;
 
@@ -36,7 +36,7 @@ implementation
 
 function TPessoa.CalcularIdade: integer;
 begin
-  Result := Trunc((now - StrToDate(dataNasc)) / 365.25)
+  Result := Trunc((now - dataNasc) / 365.25)
 end;
 
 function TPessoa.getContato: string;
@@ -49,7 +49,7 @@ begin
   Result := FCPF;
 end;
 
-function TPessoa.getDataNasc: string;
+function TPessoa.getDataNasc: TDate;
 begin
   Result := FDataNasc;
 end;
@@ -69,7 +69,7 @@ begin
   FCPF := Value;
 end;
 
-procedure TPessoa.setDataNasc(Value: string);
+procedure TPessoa.setDataNasc(Value: TDate);
 begin
   FDataNasc := Value;
 end;

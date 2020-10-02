@@ -12,23 +12,24 @@ type
     FComissao: currency;
     FSsenha: string;
 
-    function getComissao: currency;
-    procedure setComissao(Value: currency);
+    function getComissao: double;
+    procedure setComissao(Value: double);
     function getSenha: string;
     procedure setSenha(Value: string);
     function getSalario: currency;
     procedure setSalario(Value: currency);
 
   public
-    property comissao: currency read getComissao write setComissao;
+    property comissao: double read getComissao write setComissao;
     property senha: string read getSenha write setSenha;
+    property salario: currency read getSalario write setSalario;
   end;
 
 implementation
 
 { TVendedor }
 
-function TVendedor.getComissao: currency;
+function TVendedor.getComissao: double;
 begin
   Result := FComissao;
 end;
@@ -43,7 +44,7 @@ begin
   Result := FSsenha;
 end;
 
-procedure TVendedor.setComissao(Value: currency);
+procedure TVendedor.setComissao(Value: double);
 begin
   FComissao := Value;
 end;

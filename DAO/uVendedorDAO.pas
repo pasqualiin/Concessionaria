@@ -1,5 +1,5 @@
 unit uVendedorDAO;
-
+
 interface
 
 uses uVendedor, uBaseDAO, System.SysUtils, System.Generics.Collections,
@@ -55,17 +55,25 @@ function TVendedorDAO.InserirVendedor(pVendedor: TVendedor): Boolean;
 var
   SQL: string;
 begin
-
+  SQL := 'INSERT INTO vendedor VALUES ( Default, ' +
+  QuotedStr(pVendedor.nome) + ', ' +
+  QuotedStr(FormatDateTime('yyyy-mm-dd',pVendedor.dataNasc)) + ', ' +
+  QuotedStr(pVendedor.CPF) + ', ' +
+  QuotedStr(pVendedor.contato) + ', 0.05, ' +
+  QuotedStr(FloatToStr(pVendedor.salario)) + ', ' +
+  QuotedStr(pVendedor.senha) + ')';
+  Result := ExecutarComando(SQL) > 0;
 end;
 
 function TVendedorDAO.VerificarLogin(user, passw: string): Boolean;
 var
   SQL: string;
 begin
-  SQL := 'SELECT C.cpf, C.senha from vendedor C where C.cpf like ' +
-    QuotedStr(user) + ' and C.senha like ' + QuotedStr(passw);
+  SQL := 'SELECT * from vendedor WHERE cpf = ' + QuotedStr(user) +
+    ' and senha = ' + QuotedStr(passw);
 
-  Result := ExecutarComando(SQL) > 0;
+  Result := HaRegistro(SQL) > 0;
 end;
 
 end.
+

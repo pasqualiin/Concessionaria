@@ -1,0 +1,25 @@
+program ProjetoCarro;
+
+uses
+  Vcl.Forms,
+  uFrmLogin in 'uFrmLogin.pas' {FrmLogin},
+  uDM in 'uDM.pas' {DM: TDataModule},
+  uPessoa in 'MODEL\uPessoa.pas',
+  uCliente in 'MODEL\uCliente.pas',
+  uVendedor in 'MODEL\uVendedor.pas',
+  uBaseDAO in 'DAO\uBaseDAO.pas',
+  uVendedorDAO in 'DAO\uVendedorDAO.pas',
+  uFrmVendedor in 'uFrmVendedor.pas' {FrmCadVendedor},
+  uFrmPrincipal in 'uFrmPrincipal.pas' {FrmPrincipal};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  AApplication.CreateForm(TFrmLogin, FrmLogin);
+  AApplication.CreateForm(TDM, DM);
+  Application.CreateForm(TFrmCadVendedor, FrmCadVendedor);
+  Application.CreateForm(TFrmPrincipal, FrmPrincipal);
+  plication.Run;
+end.
