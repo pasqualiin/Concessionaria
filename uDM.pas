@@ -13,15 +13,6 @@ uses
 type
   TDM = class(TDataModule)
     Conn: TFDConnection;
-    TBVendedor: TFDTable;
-    TBVendedoridvendedor: TIntegerField;
-    TBVendedornome: TWideStringField;
-    TBVendedordatanac: TDateField;
-    TBVendedorcpf: TWideStringField;
-    TBVendedorcontato: TWideStringField;
-    TBVendedorcomissao: TFloatField;
-    TBVendedorsalario: TFloatField;
-    TBVendedorsenha: TWideStringField;
   private
     { Private declarations }
   public

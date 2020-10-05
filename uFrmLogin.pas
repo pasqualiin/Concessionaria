@@ -6,7 +6,8 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Buttons, Vcl.StdCtrls,
-  uFrmPrincipal, uVendedorDAO, uDM, FireDAC.Comp.Client;
+  uFrmPrincipal, uVendedorDAO, uDM, FireDAC.Comp.Client, Vcl.Imaging.pngimage,
+  Vcl.ExtCtrls;
 
 type
   TFrmLogin = class(TForm)
@@ -16,6 +17,8 @@ type
     Label2: TLabel;
     SBEntrar: TSpeedButton;
     SBSair: TSpeedButton;
+    Image1: TImage;
+    Image2: TImage;
     procedure SBEntrarClick(Sender: TObject);
     procedure SBSairClick(Sender: TObject);
   private
@@ -39,6 +42,8 @@ begin
   begin
     ShowMessage('Logado com Sucesso');
     Visible := false;
+    FrmPrincipal.SBUser.Panels[0].Text := 'Usuário: ' + VendedorDAO.RecuperaNome
+      (edtUser.Text);
     FrmPrincipal.ShowModal;
   end
   else

@@ -1,22 +1,53 @@
 unit uFrmPrincipal;
-
+
 interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus, uFrmVendedor;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus, uFrmVendedor, Vcl.Buttons,
+  Vcl.ComCtrls, Vcl.StdCtrls, Vcl.ExtCtrls, uVendedorDAO, uVendedor,
+  System.UITypes, Vcl.Imaging.jpeg;
 
 type
   TFrmPrincipal = class(TForm)
-    MainMenu1: TMainMenu;
-    Carro1: TMenuItem;
-    Cadastrar1: TMenuItem;
-    Vendedor1: TMenuItem;
-    Cliente1: TMenuItem;
-    Cadastrar2: TMenuItem;
-    Cadastrar3: TMenuItem;
-    procedure Cadastrar2Click(Sender: TObject);
+    PCPrincipal: TPageControl;
+    TSVeiculo: TTabSheet;
+    TSCliente: TTabSheet;
+    TSVendedor: TTabSheet;
+    Panel1: TPanel;
+    PCadVendedor: TPanel;
+    Label1: TLabel;
+    edtNome: TEdit;
+    Label2: TLabel;
+    edtCPF: TEdit;
+    Label4: TLabel;
+    edtContato: TEdit;
+    Label5: TLabel;
+    DTDataNasc: TDateTimePicker;
+    Label6: TLabel;
+    edtSalario: TEdit;
+    Label7: TLabel;
+    edtSenha: TEdit;
+    SBCancel: TSpeedButton;
+    SBSave: TSpeedButton;
+    Image1: TImage;
+    PListarVendedor: TPanel;
+    Image2: TImage;
+    ListView1: TListView;
+    SPEditar: TSpeedButton;
+    SPExcluir: TSpeedButton;
+    SPInserir: TSpeedButton;
+    SBUser: TStatusBar;
+    Timer1: TTimer;
+    procedure SBSaveClick(Sender: TObject);
+    procedure CapturaEdit;
+    procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure SPInserirClick(Sender: TObject);
+    procedure LimparEdit;
+    procedure SBCancelClick(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
   private
     { Private declarations }
   public
@@ -25,14 +56,80 @@ type
 
 var
   FrmPrincipal: TFrmPrincipal;
+  VendedorDAO: TVendedorDAO;
+  Vendedor: TVendedor;
 
 implementation
 
 {$R *.dfm}
 
-procedure TFrmPrincipal.Cadastrar2Click(Sender: TObject);
+procedure TFrmPrincipal.CapturaEdit;
 begin
-  FrmVendedor.ShowModal;
+  Vendedor.nome := edtNome.Text;
+  Vendedor.dataNasc := DTDataNasc.DateTime;
+  Vendedor.cpf := edtCPF.Text;
+  Vendedor.contato := edtContato.Text;
+  Vendedor.comissao := 0.05;
+  Vendedor.salario := StrToCurr(edtSalario.Text);
+  Vendedor.senha := edtSenha.Text;
+end;
+
+procedure TFrmPrincipal.FormCreate(Sender: TObject);
+begin
+  VendedorDAO := TVendedorDAO.Create;
+  Vendedor := TVendedor.Create;
+  DTDataNasc.DateTime := now;
+end;
+
+procedure TFrmPrincipal.FormDestroy(Sender: TObject);
+begin
+  if Assigned(VendedorDAO) then
+    FreeAndNil(VendedorDAO);
+  if Assigned(Vendedor) then
+    FreeAndNil(Vendedor);
+end;
+
+procedure TFrmPrincipal.LimparEdit;
+begin
+  edtNome.clear;
+  edtCPF.clear;
+  edtContato.clear;
+  edtSalario.clear;
+  edtSenha.clear;
+  DTDataNasc.DateTime := now;
+end;
+
+procedure TFrmPrincipal.SBCancelClick(Sender: TObject);
+begin
+  LimparEdit;
+  PListarVendedor.Show;
+  PCadVendedor.Hide;
+end;
+
+procedure TFrmPrincipal.SBSaveClick(Sender: TObject);
+begin
+  CapturaEdit;
+  if VendedorDAO.InserirVendedor(Vendedor) = true then
+    MessageDlg('Vendedor Inserido com Sucesso!', mtConfirmation, [mbOK], 1);
+  LimparEdit;
+  PListarVendedor.Show;
+  PCadVendedor.Hide;
+end;
+
+procedure TFrmPrincipal.SPInserirClick(Sender: TObject);
+
+begin
+  PCadVendedor.Visible := true;
+  PListarVendedor.Hide;
+end;
+
+procedure TFrmPrincipal.Timer1Timer(Sender: TObject);
+
+begin
+  SBUser.Panels[1].Text := 'Data: ' + FormatDateTime
+    ('dddd", "dd" de "mmmm" de "yyyy', now);
+  SBUser.Panels[2].Text := 'Hora: ' + FormatDateTime('hh:mm:ss', now);
 end;
 
 end.
+

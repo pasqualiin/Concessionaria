@@ -1,0 +1,171 @@
+object FrmPrincipal: TFrmPrincipal
+  Left = 0
+  Top = 0
+  Caption = 'FrmPrincipal'
+  ClientHeight = 313
+  ClientWidth = 614
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  OnCreate = FormCreate
+  PixelsPerInch = 96
+  TextHeight = 13
+  object PCPrincipal: TPageControl
+    Left = 0
+    Top = 0
+    Width = 614
+    Height = 313
+    ActivePage = TSVendedor
+    Align = alClient
+    TabOrder = 0
+    ExplicitTop = -8
+    ExplicitHeight = 341
+    object TSVeiculo: TTabSheet
+      Caption = 'Ve'#237'culo'
+      ExplicitWidth = 477
+      ExplicitHeight = 242
+      object Panel1: TPanel
+        Left = 0
+        Top = 0
+        Width = 606
+        Height = 285
+        Align = alClient
+        TabOrder = 0
+        ExplicitLeft = 128
+        ExplicitTop = 64
+        ExplicitWidth = 185
+        ExplicitHeight = 41
+      end
+    end
+    object TSCliente: TTabSheet
+      Caption = 'Cliente'
+      ImageIndex = 1
+      ExplicitWidth = 477
+      ExplicitHeight = 242
+    end
+    object TSVendedor: TTabSheet
+      Caption = 'Vendedor'
+      ImageIndex = 2
+      ExplicitWidth = 477
+      ExplicitHeight = 242
+      object PCadVendedor: TPanel
+        Left = 0
+        Top = 0
+        Width = 606
+        Height = 285
+        Align = alClient
+        TabOrder = 0
+        ExplicitLeft = 160
+        ExplicitTop = 112
+        ExplicitWidth = 185
+        ExplicitHeight = 41
+        object Label1: TLabel
+          Left = 8
+          Top = 32
+          Width = 27
+          Height = 13
+          Caption = 'Nome'
+        end
+        object Label2: TLabel
+          Left = 333
+          Top = 32
+          Width = 19
+          Height = 13
+          Caption = 'CPF'
+        end
+        object Label4: TLabel
+          Left = 4
+          Top = 88
+          Width = 39
+          Height = 13
+          Caption = 'Contato'
+        end
+        object Label5: TLabel
+          Left = 5
+          Top = 161
+          Width = 49
+          Height = 13
+          Caption = 'Data Nasc'
+        end
+        object Label6: TLabel
+          Left = 320
+          Top = 88
+          Width = 32
+          Height = 13
+          Caption = 'Sal'#225'rio'
+        end
+        object Label7: TLabel
+          Left = 322
+          Top = 161
+          Width = 30
+          Height = 13
+          Caption = 'Senha'
+        end
+        object SBCancel: TSpeedButton
+          Left = 372
+          Top = 232
+          Width = 105
+          Height = 41
+          Caption = 'Cancelar'
+        end
+        object SBSave: TSpeedButton
+          Left = 172
+          Top = 232
+          Width = 105
+          Height = 41
+          Caption = 'Salvar'
+          OnClick = SBSaveClick
+        end
+        object edtNome: TEdit
+          Left = 60
+          Top = 29
+          Width = 217
+          Height = 21
+          TabOrder = 0
+        end
+        object edtCPF: TEdit
+          Left = 372
+          Top = 29
+          Width = 217
+          Height = 21
+          TabOrder = 1
+        end
+        object edtContato: TEdit
+          Left = 60
+          Top = 85
+          Width = 217
+          Height = 21
+          TabOrder = 2
+        end
+        object DTDataNasc: TDateTimePicker
+          Left = 75
+          Top = 158
+          Width = 186
+          Height = 21
+          Date = 44105.000000000000000000
+          Format = 'dd/MM/yyyy'
+          Time = 0.660123449073580600
+          TabOrder = 3
+        end
+        object edtSalario: TEdit
+          Left = 372
+          Top = 85
+          Width = 217
+          Height = 21
+          TabOrder = 4
+        end
+        object edtSenha: TEdit
+          Left = 378
+          Top = 158
+          Width = 211
+          Height = 21
+          TabOrder = 5
+        end
+      end
+    end
+  end
+end

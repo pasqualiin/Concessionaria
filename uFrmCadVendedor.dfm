@@ -2,7 +2,7 @@ object FrmCadVendedor: TFrmCadVendedor
   Left = 0
   Top = 0
   Caption = 'FrmCadVendedor'
-  ClientHeight = 275
+  ClientHeight = 279
   ClientWidth = 598
   Color = clBtnFace
   Font.Charset = ANSI_CHARSET
@@ -107,11 +107,12 @@ object FrmCadVendedor: TFrmCadVendedor
   end
   object Panel2: TPanel
     Left = 0
-    Top = 232
+    Top = 236
     Width = 598
     Height = 43
     Align = alBottom
     TabOrder = 6
+    ExplicitTop = 232
     object SBSave: TSpeedButton
       Left = 64
       Top = 0
@@ -135,7 +136,7 @@ object FrmCadVendedor: TFrmCadVendedor
     Height = 21
     Date = 44105.000000000000000000
     Format = 'dd/MM/yyyy'
-    Time = 0.660123449073580500
+    Time = 0.660123449073580600
     TabOrder = 7
   end
 end
