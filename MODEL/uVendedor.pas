@@ -1,5 +1,5 @@
 unit uVendedor;
-
+
 interface
 
 uses uPessoa;
@@ -8,6 +8,7 @@ type
   TVendedor = class(TPessoa)
 
   private
+    FIdVendedor: integer;
     FSalario: currency;
     FComissao: currency;
     FSsenha: string;
@@ -18,8 +19,11 @@ type
     procedure setSenha(Value: string);
     function getSalario: currency;
     procedure setSalario(Value: currency);
+    function getIdVendedor: integer;
+    procedure setIdVendedor(Value: integer);
 
   public
+    property idVendedor: integer read getIdVendedor write setIdVendedor;
     property comissao: double read getComissao write setComissao;
     property senha: string read getSenha write setSenha;
     property salario: currency read getSalario write setSalario;
@@ -32,6 +36,11 @@ implementation
 function TVendedor.getComissao: double;
 begin
   Result := FComissao;
+end;
+
+function TVendedor.getIdVendedor: integer;
+begin
+  Result := FIdVendedor;
 end;
 
 function TVendedor.getSalario: currency;
@@ -49,6 +58,11 @@ begin
   FComissao := Value;
 end;
 
+procedure TVendedor.setIdVendedor(Value: integer);
+begin
+  FIdVendedor := Value;
+end;
+
 procedure TVendedor.setSalario(Value: currency);
 begin
   FSalario := Value;
@@ -60,3 +74,4 @@ begin
 end;
 
 end.
+

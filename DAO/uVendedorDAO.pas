@@ -10,6 +10,7 @@ type
 
   private
     FListaVendedor: TObjectList<TVendedor>;
+    procedure ListarVendedor(Ds: TFDQuery);
   public
     constructor Create;
     destructor Destroy;
@@ -18,6 +19,7 @@ type
     function ExcluirVendedor(pVendedor: TVendedor): Boolean;
     function VerificarLogin(user, passw: string): Boolean;
     function RecuperaNome(user: string): String;
+    function BuscaVendedor: TObjectList<TVendedor>;
   end;
 
 implementation
@@ -25,7 +27,39 @@ implementation
 { TVendedorDAO }
 
 function TVendedorDAO.AlterarVendedor(pVendedor: TVendedor): Boolean;
+var
+  SQL: string;
 begin
+  SQL := 'UPDATE vendedor set nome = '
+  + QuotedStr(pVendedor.nome) + ', ' +
+    'datanasc = ' +
+    QuotedStr(FormatDateTime('yyyy-mm-dd,', pVendedor.DataNasc)) + ', '
+    + 'cpf = ' +
+    QuotedStr(pVendedor.cpf) + ', ' +
+    'contato = ' +
+    QuotedStr(pVendedor.contato) + ', ' +
+    'comissao = ' +
+    QuotedStr(FloatToStr(pVendedor.comissao)) + ', ' +
+    'salario = ' +
+    QuotedStr(CurrToStr(pVendedor.salario)) + ', ' +
+    'senha = ' +
+    QuotedStr(pVendedor.senha) +
+    'WHERE idvendedor = ' + IntToStr(pVendedor.IdVendedor);
+  Result := ExecutarComando(SQL) > 0;
+end;
+
+function TVendedorDAO.BuscaVendedor: TObjectList<TVendedor>;
+var
+  SQL: String;
+begin
+  SQL := 'SELECT * FROM vendedor';
+  FQuery := RetornarDataSet(SQL);
+
+  if not(FQuery.isEmpty) then
+  begin
+    ListarVendedor(FQuery);
+    Result := FListaVendedor;
+  end;
 
 end;
 
@@ -48,8 +82,12 @@ begin
 end;
 
 function TVendedorDAO.ExcluirVendedor(pVendedor: TVendedor): Boolean;
+var
+  SQL: string;
 begin
-
+  SQL := 'DELETE FROM vendedor WHERE idvendedor = ' +
+    IntToStr(pVendedor.IdVendedor);
+  Result := ExecutarComando(SQL) > 0;
 end;
 
 function TVendedorDAO.InserirVendedor(pVendedor: TVendedor): Boolean;
@@ -57,11 +95,33 @@ var
   SQL: string;
 begin
   SQL := 'INSERT INTO vendedor VALUES ( Default, ' + QuotedStr(pVendedor.nome) +
-    ', ' + QuotedStr(FormatDateTime('yyyy-mm-dd', pVendedor.dataNasc)) + ', ' +
-    QuotedStr(pVendedor.CPF) + ', ' + QuotedStr(pVendedor.contato) + ', 0.05, '
+    ', ' + QuotedStr(FormatDateTime('yyyy-mm-dd', pVendedor.DataNasc)) + ', ' +
+    QuotedStr(pVendedor.cpf) + ', ' + QuotedStr(pVendedor.contato) + ', 0.05, '
     + QuotedStr(FloatToStr(pVendedor.salario)) + ', ' +
     QuotedStr(pVendedor.senha) + ')';
   Result := ExecutarComando(SQL) > 0;
+end;
+
+procedure TVendedorDAO.ListarVendedor(Ds: TFDQuery);
+var
+  i: integer;
+begin
+  i := 0;
+  FListaVendedor.Clear;
+
+  while not Ds.Eof do
+  begin
+    FListaVendedor.Add(TVendedor.Create);
+    FListaVendedor[i].IdVendedor := Ds.FieldByName('idvendedor').AsInteger;
+    FListaVendedor[i].nome := Ds.FieldByName('nome').AsString;
+    FListaVendedor[i].cpf := Ds.FieldByName('cpf').AsString;
+    FListaVendedor[i].contato := Ds.FieldByName('contato').AsString;
+    FListaVendedor[i].comissao := Ds.FieldByName('comissao').AsFloat;
+    FListaVendedor[i].salario := Ds.FieldByName('salario').AsFloat;
+    FListaVendedor[i].senha := Ds.FieldByName('senha').AsString;
+    Ds.Next;
+    i := i + 1;
+  end;
 end;
 
 function TVendedorDAO.RecuperaNome(user: string): String;
@@ -72,7 +132,7 @@ begin
   SQL := 'SELECT * FROM vendedor WHERE cpf = ' + QuotedStr(user);
   if HaRegistro(SQL) > 0 then
     Retorno := RetornarDataSet(SQL);
-  Result := Retorno.FieldByName('nome').asString;
+  Result := Retorno.FieldByName('nome').AsString;
 end;
 
 function TVendedorDAO.VerificarLogin(user, passw: string): Boolean;

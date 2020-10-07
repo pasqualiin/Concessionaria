@@ -2,7 +2,7 @@ object FrmPrincipal: TFrmPrincipal
   Left = 0
   Top = 0
   Caption = 'FrmPrincipal'
-  ClientHeight = 305
+  ClientHeight = 331
   ClientWidth = 614
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -19,56 +19,46 @@ object FrmPrincipal: TFrmPrincipal
     Left = 0
     Top = 0
     Width = 614
-    Height = 286
-    ActivePage = TSVeiculo
+    Height = 312
+    ActivePage = TSVendedor
     Align = alClient
     TabOrder = 0
-    ExplicitTop = -8
-    ExplicitHeight = 341
+    ExplicitHeight = 286
     object TSVeiculo: TTabSheet
       Caption = 'Ve'#237'culo'
-      ExplicitWidth = 477
-      ExplicitHeight = 242
+      ExplicitHeight = 258
       object Panel1: TPanel
         Left = 0
         Top = 0
         Width = 606
-        Height = 258
+        Height = 284
         Align = alClient
         TabOrder = 0
-        ExplicitLeft = 128
-        ExplicitTop = 64
-        ExplicitWidth = 185
-        ExplicitHeight = 41
+        ExplicitHeight = 258
       end
     end
     object TSCliente: TTabSheet
       Caption = 'Cliente'
       ImageIndex = 1
-      ExplicitWidth = 477
-      ExplicitHeight = 242
+      ExplicitHeight = 258
     end
     object TSVendedor: TTabSheet
       Caption = 'Vendedor'
       ImageIndex = 2
-      ExplicitWidth = 477
-      ExplicitHeight = 242
+      ExplicitHeight = 258
       object PListarVendedor: TPanel
         Left = 0
         Top = 0
         Width = 606
-        Height = 258
+        Height = 284
         Align = alClient
         TabOrder = 1
-        ExplicitLeft = 152
-        ExplicitTop = 200
-        ExplicitWidth = 185
-        ExplicitHeight = 41
+        ExplicitHeight = 258
         object Image2: TImage
           Left = 1
           Top = 1
           Width = 604
-          Height = 256
+          Height = 282
           Align = alClient
           Picture.Data = {
             0A544A504547496D616765596C0000FFD8FFE000104A46494600010100000100
@@ -950,6 +940,7 @@ object FrmPrincipal: TFrmPrincipal
           Width = 110
           Height = 41
           Caption = 'Editar'
+          OnClick = SPEditarClick
         end
         object SPExcluir: TSpeedButton
           Left = 447
@@ -957,6 +948,7 @@ object FrmPrincipal: TFrmPrincipal
           Width = 110
           Height = 41
           Caption = 'Excluir'
+          OnClick = SPExcluirClick
         end
         object SPInserir: TSpeedButton
           Left = 60
@@ -966,7 +958,7 @@ object FrmPrincipal: TFrmPrincipal
           Caption = 'Inserir'
           OnClick = SPInserirClick
         end
-        object ListView1: TListView
+        object LVVendedor: TListView
           Left = -8
           Top = 24
           Width = 614
@@ -992,6 +984,7 @@ object FrmPrincipal: TFrmPrincipal
               Caption = 'Comiss'#227'o'
               Width = 80
             end>
+          RowSelect = True
           TabOrder = 0
           ViewStyle = vsReport
         end
@@ -1000,19 +993,16 @@ object FrmPrincipal: TFrmPrincipal
         Left = 0
         Top = 0
         Width = 606
-        Height = 258
+        Height = 284
         Align = alClient
         TabOrder = 0
         Visible = False
-        ExplicitLeft = 160
-        ExplicitTop = 112
-        ExplicitWidth = 185
-        ExplicitHeight = 41
+        ExplicitHeight = 258
         object Image1: TImage
           Left = 1
           Top = 1
           Width = 604
-          Height = 256
+          Height = 282
           Align = alClient
           Picture.Data = {
             0A544A504547496D616765596C0000FFD8FFE000104A46494600010100000100
@@ -1883,10 +1873,8 @@ object FrmPrincipal: TFrmPrincipal
             A099494C5009A8879554376920C0738FA27E845A2F998DFCE8E7C346D6826F37
             F89BDAE0E5A5376BDEFC6BFD752884DE7DDA368FD436BF0CBC9AFE4FE4FDCE82
             7EF3AB79D77FFFD9}
-          ExplicitLeft = 247
-          ExplicitTop = 107
-          ExplicitWidth = 105
-          ExplicitHeight = 105
+          ExplicitLeft = 41
+          ExplicitTop = 0
         end
         object Label1: TLabel
           Left = 8
@@ -1909,19 +1897,19 @@ object FrmPrincipal: TFrmPrincipal
           Height = 13
           Caption = 'Contato'
         end
-        object Label5: TLabel
-          Left = 5
-          Top = 161
-          Width = 49
-          Height = 13
-          Caption = 'Data Nasc'
-        end
         object Label6: TLabel
           Left = 320
           Top = 88
           Width = 32
           Height = 13
           Caption = 'Sal'#225'rio'
+        end
+        object Label5: TLabel
+          Left = 5
+          Top = 161
+          Width = 49
+          Height = 13
+          Caption = 'Data Nasc'
         end
         object Label7: TLabel
           Left = 322
@@ -1930,14 +1918,6 @@ object FrmPrincipal: TFrmPrincipal
           Height = 13
           Caption = 'Senha'
         end
-        object SBCancel: TSpeedButton
-          Left = 372
-          Top = 232
-          Width = 105
-          Height = 41
-          Caption = 'Cancelar'
-          OnClick = SBCancelClick
-        end
         object SBSave: TSpeedButton
           Left = 172
           Top = 232
@@ -1945,6 +1925,14 @@ object FrmPrincipal: TFrmPrincipal
           Height = 41
           Caption = 'Salvar'
           OnClick = SBSaveClick
+        end
+        object SBCancel: TSpeedButton
+          Left = 372
+          Top = 232
+          Width = 105
+          Height = 41
+          Caption = 'Cancelar'
+          OnClick = SBCancelClick
         end
         object edtNome: TEdit
           Left = 60
@@ -1967,6 +1955,13 @@ object FrmPrincipal: TFrmPrincipal
           Height = 21
           TabOrder = 2
         end
+        object edtSalario: TEdit
+          Left = 372
+          Top = 85
+          Width = 217
+          Height = 21
+          TabOrder = 4
+        end
         object DTDataNasc: TDateTimePicker
           Left = 75
           Top = 158
@@ -1977,16 +1972,132 @@ object FrmPrincipal: TFrmPrincipal
           Time = 0.660123449073580600
           TabOrder = 3
         end
-        object edtSalario: TEdit
-          Left = 372
-          Top = 85
-          Width = 217
-          Height = 21
-          TabOrder = 4
-        end
         object edtSenha: TEdit
           Left = 378
           Top = 158
+          Width = 211
+          Height = 21
+          TabOrder = 5
+        end
+      end
+      object PEditarVendedor: TPanel
+        Left = 0
+        Top = 0
+        Width = 606
+        Height = 284
+        Align = alClient
+        TabOrder = 2
+        Visible = False
+        ExplicitLeft = -3
+        ExplicitTop = -3
+        object Image3: TImage
+          Left = 1
+          Top = 1
+          Width = 604
+          Height = 282
+          Align = alClient
+          ExplicitLeft = 0
+          ExplicitTop = 0
+        end
+        object Label3: TLabel
+          Left = 16
+          Top = 40
+          Width = 27
+          Height = 13
+          Caption = 'Nome'
+        end
+        object Label8: TLabel
+          Left = 341
+          Top = 40
+          Width = 19
+          Height = 13
+          Caption = 'CPF'
+        end
+        object Label9: TLabel
+          Left = 12
+          Top = 96
+          Width = 39
+          Height = 13
+          Caption = 'Contato'
+        end
+        object Label10: TLabel
+          Left = 328
+          Top = 96
+          Width = 32
+          Height = 13
+          Caption = 'Sal'#225'rio'
+        end
+        object Label11: TLabel
+          Left = 13
+          Top = 169
+          Width = 49
+          Height = 13
+          Caption = 'Data Nasc'
+        end
+        object Label12: TLabel
+          Left = 330
+          Top = 169
+          Width = 30
+          Height = 13
+          Caption = 'Senha'
+        end
+        object SBSalvarEdicao: TSpeedButton
+          Left = 180
+          Top = 240
+          Width = 105
+          Height = 41
+          Caption = 'Salvar'
+          OnClick = SBSaveClick
+        end
+        object SBCancelarEdicao: TSpeedButton
+          Left = 380
+          Top = 240
+          Width = 105
+          Height = 41
+          Caption = 'Cancelar'
+          OnClick = SBCancelClick
+        end
+        object edtNomeEdicao: TEdit
+          Left = 68
+          Top = 37
+          Width = 217
+          Height = 21
+          TabOrder = 0
+        end
+        object edtCpfEdicao: TEdit
+          Left = 380
+          Top = 37
+          Width = 217
+          Height = 21
+          TabOrder = 1
+        end
+        object edtContatoEdicao: TEdit
+          Left = 68
+          Top = 93
+          Width = 217
+          Height = 21
+          TabOrder = 2
+        end
+        object edtSalarioEdicao: TEdit
+          Left = 380
+          Top = 93
+          Width = 217
+          Height = 21
+          TabOrder = 3
+        end
+        object DTDataNascEdicao: TDateTimePicker
+          Left = 83
+          Top = 166
+          Width = 202
+          Height = 21
+          Date = 44105.000000000000000000
+          Format = 'dd/MM/yyyy'
+          Time = 0.660123449073580600
+          TabOrder = 4
+        end
+        object edtSenhaEdicao: TEdit
+          Left = 386
+          Top = 166
           Width = 211
           Height = 21
           TabOrder = 5
@@ -1996,7 +2107,7 @@ object FrmPrincipal: TFrmPrincipal
   end
   object SBUser: TStatusBar
     Left = 0
-    Top = 286
+    Top = 312
     Width = 614
     Height = 19
     Panels = <
@@ -2012,13 +2123,11 @@ object FrmPrincipal: TFrmPrincipal
         Text = 'Hora:'
         Width = 100
       end>
-    ExplicitLeft = 1
-    ExplicitTop = 257
-    ExplicitWidth = 604
+    ExplicitTop = 286
   end
   object Timer1: TTimer
     OnTimer = Timer1Timer
-    Left = 144
-    Top = 144
+    Left = 552
+    Top = 248
   end
 end
