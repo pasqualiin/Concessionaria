@@ -1,0 +1,79 @@
+unit uClienteDAO;
+
+interface
+
+uses uBaseDAO, uCliente, System.SysUtils, FireDAC.Comp.Client,
+FireDAC.DApt;
+
+type
+  TClienteDAO = class(TBaseDAO)
+
+  private
+
+  public
+    constructor Create;
+    destructor Destroy;
+    function InserirCliente(pCliente: TCliente): Boolean;
+    function AlterarCliente(pCliente: TCliente): Boolean;
+    function ExcluirCliente(pCliente: TCliente): Boolean;
+  end;
+
+implementation
+
+{ TClienteDAO }
+
+function TClienteDAO.AlterarCliente(pCliente: TCliente): Boolean;
+var
+  SQL: String;
+begin
+
+SQL := 'UPDATE cliente set nomeCliente = ' +
+QuotedStr(pCliente.nome) + ', ' +
+'dataNasc = ' +
+QuotedStr(FormatDateTime('yyyy-mm-dd', pCliente.dataNasc)) + ', ' +
+'cpfCliente = ' +
+QuotedStr(pCliente.cpf) + ', ' +
+'contato = ' +
+QuotedStr(pCliente.contato) + ', ' +
+'rendaMensal = ' +
+QuotedStr(CurrToStr(pCliente.salario)) + ', ' +
+'enderecoCliente = ' +
+QuotedStr(pCliente.endereco) +
+' WHERE idCliente = ' +
+QuotedStr(IntToStr(pCliente.idCliente));
+
+Result := ExecutarComando(SQL) > 0
+end;
+
+constructor TClienteDAO.Create;
+begin
+  inherited;
+end;
+
+destructor TClienteDAO.Destroy;
+begin
+  inherited;
+end;
+
+function TClienteDAO.ExcluirCliente(pCliente: TCliente): Boolean;
+var
+SQL : string;
+begin
+  SQL := 'DELETE FROM cliente WHERE idCliente = ' +
+  QuotedStr(IntToStr(pCliente.idCliente));
+end;
+
+function TClienteDAO.InserirCliente(pCliente: TCliente): Boolean;
+var
+  SQL: String;
+begin
+  SQL := 'INSERT INTO cliente VALUES ( default, ' + QuotedStr(pCliente.nome) +
+    ', ' + QuotedStr(FormatDateTime(pCliente.dataNasc)) + ', ' +
+    QuotedStr(pCliente.cpf) + ', ' + QuotedStr(pCliente.contato) + ', ' +
+    QuotedStr(CurrToStr(pCliente.salario)) + ', ' +
+    QuotedStr(pCliente.endereco) + ')';
+
+  Result := ExecutarComando(SQL) > 0;
+end;
+
+end.

@@ -4872,6 +4872,7 @@ object FrmLogin: TFrmLogin
     Top = 160
     Width = 90
     Height = 35
+    Cursor = crHandPoint
     Caption = 'ENTRAR'
     OnClick = SBEntrarClick
   end
@@ -4880,6 +4881,7 @@ object FrmLogin: TFrmLogin
     Top = 160
     Width = 90
     Height = 35
+    Cursor = crHandPoint
     Caption = 'SAIR'
     OnClick = SBSairClick
   end
@@ -5167,17 +5169,18 @@ object FrmLogin: TFrmLogin
       F0340C010C3C8DFF0348D3D1FC16A960AF0000000049454E44AE426082}
   end
   object edtUser: TEdit
-    Left = 112
-    Top = 57
+    Left = 100
+    Top = 55
     Width = 241
-    Height = 24
+    Height = 32
     TabOrder = 0
   end
   object edtPassw: TEdit
-    Left = 112
+    Left = 100
     Top = 104
     Width = 241
-    Height = 24
+    Height = 33
+    PasswordChar = '*'
     TabOrder = 1
   end
 end

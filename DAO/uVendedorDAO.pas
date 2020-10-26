@@ -3,7 +3,7 @@ unit uVendedorDAO;
 interface
 
 uses uVendedor, uBaseDAO, System.SysUtils, System.Generics.Collections,
-  FireDAC.Comp.Client, FireDAC.Dapt, uDM;
+  FireDAC.Comp.Client, FireDAC.Dapt, uDM, Data.DB;
 
 type
   TVendedorDAO = class(TBaseDAO)
@@ -32,14 +32,13 @@ var
 begin
   SQL := 'UPDATE vendedor set nome = '
   + QuotedStr(pVendedor.nome) + ', ' +
-    'datanasc = ' +
+    'datanac = ' +
     QuotedStr(FormatDateTime('yyyy-mm-dd,', pVendedor.DataNasc)) + ', '
     + 'cpf = ' +
     QuotedStr(pVendedor.cpf) + ', ' +
     'contato = ' +
     QuotedStr(pVendedor.contato) + ', ' +
-    'comissao = ' +
-    QuotedStr(FloatToStr(pVendedor.comissao)) + ', ' +
+    'comissao = 0.05, ' +
     'salario = ' +
     QuotedStr(CurrToStr(pVendedor.salario)) + ', ' +
     'senha = ' +
@@ -94,10 +93,13 @@ function TVendedorDAO.InserirVendedor(pVendedor: TVendedor): Boolean;
 var
   SQL: string;
 begin
-  SQL := 'INSERT INTO vendedor VALUES ( Default, ' + QuotedStr(pVendedor.nome) +
-    ', ' + QuotedStr(FormatDateTime('yyyy-mm-dd', pVendedor.DataNasc)) + ', ' +
-    QuotedStr(pVendedor.cpf) + ', ' + QuotedStr(pVendedor.contato) + ', 0.05, '
-    + QuotedStr(FloatToStr(pVendedor.salario)) + ', ' +
+  SQL := 'INSERT INTO vendedor VALUES ( Default, ' +
+    QuotedStr(pVendedor.nome) + ', ' +
+    QuotedStr(FormatDateTime('yyyy-mm-dd', pVendedor.DataNasc)) + ', ' +
+    QuotedStr(pVendedor.cpf) + ', ' +
+    QuotedStr(pVendedor.contato) +
+    ', 0.05, ' +
+    QuotedStr(CurrToStr(pVendedor.salario)) + ', ' +
     QuotedStr(pVendedor.senha) + ')';
   Result := ExecutarComando(SQL) > 0;
 end;

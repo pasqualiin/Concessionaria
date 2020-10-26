@@ -7,7 +7,8 @@ uses
   System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus, uFrmVendedor, Vcl.Buttons,
   Vcl.ComCtrls, Vcl.StdCtrls, Vcl.ExtCtrls, uVendedorDAO, uVendedor,
-  System.UITypes, Vcl.Imaging.jpeg, System.Generics.Collections;
+  System.UITypes, Vcl.Imaging.jpeg, System.Generics.Collections,
+  uCliente, uClienteDAO;
 
 type
   TFrmPrincipal = class(TForm)
@@ -15,7 +16,7 @@ type
     TSVeiculo: TTabSheet;
     TSCliente: TTabSheet;
     TSVendedor: TTabSheet;
-    Panel1: TPanel;
+    PListarCliente: TPanel;
     PCadVendedor: TPanel;
     Label1: TLabel;
     edtNome: TEdit;
@@ -56,6 +57,41 @@ type
     SBSalvarEdicao: TSpeedButton;
     SBCancelarEdicao: TSpeedButton;
     Image3: TImage;
+    LVCliente: TListView;
+    SBInserirCliente: TSpeedButton;
+    SBEditarCliente: TSpeedButton;
+    SBExcluirCliente: TSpeedButton;
+    PEditarCliente: TPanel;
+    Image4: TImage;
+    Label13: TLabel;
+    Label14: TLabel;
+    Label15: TLabel;
+    Label16: TLabel;
+    Label17: TLabel;
+    Label18: TLabel;
+    SBSalvarEdicaoCliente: TSpeedButton;
+    SBCancelarEdicaoCliente: TSpeedButton;
+    edtNomeEdicaoCliente: TEdit;
+    edtCpfEdicaoCliente: TEdit;
+    edtContatoEdicaoCliente: TEdit;
+    edtSalarioEdicaoCliente: TEdit;
+    DTDataNascEdicaoCliente: TDateTimePicker;
+    edtEnderecoEdicaoCliente: TEdit;
+    PInserirCliente: TPanel;
+    Label19: TLabel;
+    edtNomeCliente: TEdit;
+    Label20: TLabel;
+    edtCpfCliente: TEdit;
+    Label21: TLabel;
+    edtContatoCliente: TEdit;
+    Label22: TLabel;
+    edtSalarioCliente: TEdit;
+    Label23: TLabel;
+    edtEnderecoCliente: TEdit;
+    Label24: TLabel;
+    DTDataNascCliente: TDateTimePicker;
+    SBSalvarCliente: TSpeedButton;
+    SBCancelarCliente: TSpeedButton;
     procedure SBSaveClick(Sender: TObject);
     procedure CapturaEdit;
     procedure FormCreate(Sender: TObject);
@@ -64,13 +100,17 @@ type
     procedure LimparEdit;
     procedure SBCancelClick(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
-    procedure PreencherListView(pListaVendedor: TList<TVendedor>);
+    procedure PreencherListView(pListaVendedor: TList<TVendedor>); overload;
+    procedure PreencherListView(pListaCliente: TList<TCliente>); overload;
     procedure CarregarColecao;
     procedure SPExcluirClick(Sender: TObject);
     procedure SPEditarClick(Sender: TObject);
     procedure PreencherEdit;
     procedure SBSalvarEdicaoClick(Sender: TObject);
     procedure CapturaEditEdicao;
+    procedure SBCancelarEdicaoClick(Sender: TObject);
+    procedure SBSalvarClienteClick(Sender: TObject);
+    procedure CapturarEditCliente;
   private
     { Private declarations }
   public
@@ -81,10 +121,14 @@ var
   FrmPrincipal: TFrmPrincipal;
   VendedorDAO: TVendedorDAO;
   Vendedor: TVendedor;
+  Cliente: TCliente;
+  ClienteDAO: TClienteDAO;
 
 implementation
 
 {$R *.dfm}
+
+uses uFrmLogin;
 
 procedure TFrmPrincipal.CapturaEdit;
 begin
@@ -108,6 +152,16 @@ begin
   Vendedor.senha := edtSenhaEdicao.Text;
 end;
 
+procedure TFrmPrincipal.CapturarEditCliente;
+begin
+  Cliente.nome := edtNomeCliente.Text;
+  Cliente.dataNasc := DTDataNascCliente.DateTime;
+  Cliente.cpf := edtCpfCliente.Text;
+  Cliente.contato := edtContatoCliente.Text;
+  Cliente.salario := StrToCurr(edtSalarioCliente.Text);
+  Cliente.endereco := edtEnderecoCliente.Text;
+end;
+
 procedure TFrmPrincipal.CarregarColecao;
 begin
   try
@@ -122,6 +176,8 @@ procedure TFrmPrincipal.FormCreate(Sender: TObject);
 begin
   VendedorDAO := TVendedorDAO.Create;
   Vendedor := TVendedor.Create;
+  Cliente := TCliente.Create;
+  ClienteDAO := TClienteDAO.Create;
   DTDataNasc.DateTime := now;
   CarregarColecao;
 end;
@@ -132,6 +188,11 @@ begin
     FreeAndNil(VendedorDAO);
   if Assigned(Vendedor) then
     FreeAndNil(Vendedor);
+  if Assigned(Cliente) then
+    FreeAndNil(Cliente);
+  if Assigned(ClienteDAO) then
+    FreeAndNil(ClienteDAO);
+  FrmLogin.Close;
 end;
 
 procedure TFrmPrincipal.LimparEdit;
@@ -153,6 +214,30 @@ begin
   DTDataNascEdicao.DateTime := Vendedor.dataNasc;
   edtSenhaEdicao.Text := Vendedor.senha;
 
+end;
+
+procedure TFrmPrincipal.PreencherListView(pListaCliente: TList<TCliente>);
+begin
+  var
+  I: integer;
+  tempItems: TListItem;
+  if Assigned(pListaVendedor) then
+  begin
+    LVVendedor.clear;
+
+    for I := 0 to pListaVendedor.Count - 1 do
+    begin
+      tempItems := LVVendedor.Items.Add;
+      tempItems.Caption := (TVendedor(pListaVendedor[I]).nome);
+      tempItems.SubItems.Add(TVendedor(pListaVendedor[I]).cpf);
+      tempItems.SubItems.Add(TVendedor(pListaVendedor[I]).contato);
+      tempItems.SubItems.Add(CurrToStr(TVendedor(pListaVendedor[I]).salario));
+      tempItems.SubItems.Add(FloatToStr(TVendedor(pListaVendedor[I]).comissao));
+      tempItems.Data := TVendedor(pListaVendedor[I]);
+    end
+  end
+  else
+    ShowMessage('Nada Encontrado')
 end;
 
 procedure TFrmPrincipal.PreencherListView(pListaVendedor: TList<TVendedor>);
@@ -179,6 +264,12 @@ begin
     ShowMessage('Nada Encontrado')
 end;
 
+procedure TFrmPrincipal.SBCancelarEdicaoClick(Sender: TObject);
+begin
+  PEditarVendedor.Hide;
+  PListarVendedor.Show;
+end;
+
 procedure TFrmPrincipal.SBCancelClick(Sender: TObject);
 begin
   LimparEdit;
@@ -186,11 +277,28 @@ begin
   PCadVendedor.Hide;
 end;
 
+procedure TFrmPrincipal.SBSalvarClienteClick(Sender: TObject);
+begin
+  CapturarEditCliente;
+  if ClienteDAO.InserirCliente(Cliente) = True then
+  begin
+    ShowMessage('Cliente Inserido com Sucesso!');
+  end;
+  PInserirCliente.Hide;
+  PListarCliente.Show;
+end;
+
 procedure TFrmPrincipal.SBSalvarEdicaoClick(Sender: TObject);
 begin
   CapturaEditEdicao;
-  VendedorDAO.AlterarVendedor(Vendedor);
+  if VendedorDAO.AlterarVendedor(Vendedor) = true then
+  begin
+    ShowMessage('Registro Alterado com Sucesso!');
+  end;
   CarregarColecao;
+  PEditarVendedor.Hide;
+  PListarVendedor.Show;
+
 end;
 
 procedure TFrmPrincipal.SBSaveClick(Sender: TObject);

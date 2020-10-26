@@ -1,0 +1,97 @@
+unit uClienteDAO;
+
+interface
+
+uses uBaseDAO, uCliente, System.SysUtils, FireDAC.Comp.Client,
+  FireDAC.DApt, Generics.Collections;
+
+type
+  TClienteDAO = class(TBaseDAO)
+
+  private
+    FListaCliente: TObjectList<TCliente>;
+    procedure ListarCliente(Ds: TFDQuery);
+  public
+    constructor Create;
+    destructor Destroy;
+    function InserirCliente(pCliente: TCliente): Boolean;
+    function AlterarCliente(pCliente: TCliente): Boolean;
+    function ExcluirCliente(pCliente: TCliente): Boolean;
+  end;
+
+implementation
+
+{ TClienteDAO }
+
+function TClienteDAO.AlterarCliente(pCliente: TCliente): Boolean;
+var
+  SQL: String;
+begin
+
+  SQL := 'UPDATE cliente set nomeCliente = ' + QuotedStr(pCliente.nome) + ', ' +
+    'dataNasc = ' + QuotedStr(FormatDateTime('yyyy-mm-dd', pCliente.dataNasc)) +
+    ', ' + 'cpfCliente = ' + QuotedStr(pCliente.cpf) + ', ' + 'contato = ' +
+    QuotedStr(pCliente.contato) + ', ' + 'rendaMensal = ' +
+    QuotedStr(CurrToStr(pCliente.salario)) + ', ' + 'enderecoCliente = ' +
+    QuotedStr(pCliente.endereco) + ' WHERE idCliente = ' +
+    QuotedStr(IntToStr(pCliente.idCliente));
+
+  Result := ExecutarComando(SQL) > 0
+end;
+
+constructor TClienteDAO.Create;
+begin
+  inherited;
+  FListaCliente := TObjectList<TCliente>.Create;
+end;
+
+destructor TClienteDAO.Destroy;
+begin
+  inherited;
+  if Assigned(FListaCliente) then
+    FreeAndNil(FListaCliente);
+end;
+
+function TClienteDAO.ExcluirCliente(pCliente: TCliente): Boolean;
+var
+  SQL: string;
+begin
+  SQL := 'DELETE FROM cliente WHERE idCliente = ' +
+    QuotedStr(IntToStr(pCliente.idCliente));
+end;
+
+function TClienteDAO.InserirCliente(pCliente: TCliente): Boolean;
+var
+  SQL: String;
+begin
+  SQL := 'INSERT INTO cliente VALUES ( default, ' + QuotedStr(pCliente.nome) +
+    ', ' + QuotedStr(FormatDateTime('yyyy-mm-dd', pCliente.dataNasc)) + ', ' +
+    QuotedStr(pCliente.cpf) + ', ' + QuotedStr(pCliente.contato) + ', ' +
+    QuotedStr(CurrToStr(pCliente.salario)) + ', ' +
+    QuotedStr(pCliente.endereco) + ')';
+
+  Result := ExecutarComando(SQL) > 0;
+end;
+
+procedure TClienteDAO.ListarCliente(Ds: TFDQuery);
+var
+  i: integer;
+begin
+  i := 0;
+  FListaCliente.Clear;
+
+  while not Ds.Eof do
+  begin
+    FListaCliente.Add(TCliente.Create);
+    FListaCliente[i].idCliente := Ds.FieldByName('idCliente').AsInteger;
+    FListaCliente[i].nome := Ds.FieldByName('nomeCliente').AsString;
+    FListaCliente[i].cpf := Ds.FieldByName('cpfCliente').AsString;
+    FListaCliente[i].contato := Ds.FieldByName('contato').AsString;
+    FListaCliente[i].salario := Ds.FieldByName('rendaMensal').AsFloat;
+    FListaCliente[i].endereco := Ds.FieldByName('enderecoCliente').AsString;
+    Ds.Next;
+    i := i + 1;
+  end;
+end;
+
+end.
